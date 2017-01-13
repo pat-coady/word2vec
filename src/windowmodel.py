@@ -60,11 +60,13 @@ class WindowModel(object):
                 tf.random_uniform([g_params['vocab_size'],
                                    g_params['embed_size']],
                                   -1.0, 1.0))  # TODO: Is this reasonable initialization?
-            # shared embedding weights for all 4 input words
+
+            # embedding weights tied for all 4 input words
             embed_m2 = tf.nn.embedding_lookup(g_ops_tensors['embed_weights'], w_m2)
             embed_m1 = tf.nn.embedding_lookup(g_ops_tensors['embed_weights'], w_m1)
             embed_p1 = tf.nn.embedding_lookup(g_ops_tensors['embed_weights'], w_p1)
             embed_p2 = tf.nn.embedding_lookup(g_ops_tensors['embed_weights'], w_p2)
+
             # concatenate word vectors for all 4 input words
             embed_stack = tf.concat(concat_dim=1,
                                     values=[embed_m2, embed_m1, embed_p1, embed_p2])
@@ -159,8 +161,8 @@ class WindowModel(object):
         e_train, e_val = ([], [])
         with tf.Session(graph=self.graph) as session:
             session.run(g_ops_tensors['initializer'])   # initialize graph
-            for epoch in range(epochs):
-                print('epoch {}: '.format(epoch + 1), end='')
+            for epoch in range(1, epochs+1):
+                print('epoch {}: '.format(epoch), end='')
                 avg_loss, avg_loss_count = (0, 0)
                 x, y = shuffle(x, y)                    # shuffle data prior to each epoch
                 for batch in range(num_batches):
@@ -181,22 +183,30 @@ class WindowModel(object):
                       .format(batch_count, avg_loss / avg_loss_count, val_loss))
                 g_ops_tensors['saver'].save(session,
                                             '../model-save/' + g_params['name'],
-                                            global_step=epoch+1)
+                                            global_step=epoch)
             self.results['embed_weights'] = g_ops_tensors['embed_weights'].eval()
             self.results['nce_weights'] = g_ops_tensors['nce_weights'].eval()
             self.results['e_train'] = e_train
             self.results['e_val'] = e_val
+            self.results['epochs'] = epoch
 
         return self.results.copy()
 
     def predict(self, x, epoch=None):
+        """
+        Makes prediction, loads model state from disk. Can optionally specify
+        model from which training epoch to make predictions from.
+        :param x: np.array(dtype=np.int32, shape=(N,4)) features
+        :param epoch: training epoch to pull model from
+        :return: predictions: argmax of softmax outputs
+        """
         if epoch is None:
-            epoch = self.g_params['epochs']
+            epoch = self.results['epochs']
         g_ops_tensors = self.g_ops_tensors  # shorten var names
         g_params = self.g_params            # shorten var names
         with tf.Session(graph=self.graph) as session:
             g_ops_tensors['saver'].restore(session,
-                                           '../model-save/'+g_params['name']+
+                                           '../model-save/'+g_params['name'] +
                                            '-'+str(epoch))
             feed_dict = {g_ops_tensors['x']: x}
             y_hat = session.run([g_ops_tensors['y_hat']],
@@ -230,7 +240,4 @@ class WindowModel(object):
         return x, y
 
 # TODO: add cross-check graph calculation (numpy-based calculation)
-# TODO: add saver so trained graph can be reloaded
-# TODO: add predict_word() method
 # TODO: experiment with swapping in predicted words on unseen document
-# TODO: plot word count distribution
