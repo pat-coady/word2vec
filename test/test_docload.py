@@ -12,7 +12,7 @@ class TestDocload(TestCase):
     def test_load1(self):
         from docload import load_books
         filenames = ['test1.txt']
-        word_count, word_list, (num_lines, num_words) = load_books(filenames, gutenberg=False)
+        word_count, word_list, num_lines, num_words = load_books(filenames, gutenberg=False)
         self.assertEqual(7, len(word_count), 'incorrect counter length')
         self.assertEqual(2, word_count['the'], 'incorrect word count')
         self.assertEqual(3, word_count['brown'], 'incorrect word count')
@@ -23,7 +23,7 @@ class TestDocload(TestCase):
     def test_load2(self):
         from docload import load_books
         filenames = ['test2.txt']
-        word_count, word_list, (num_lines, num_words) = load_books(filenames, gutenberg=True)
+        word_count, word_list, num_lines, num_words = load_books(filenames, gutenberg=True)
         self.assertEqual(7, len(word_count), 'incorrect counter length')
         self.assertEqual(2, word_count['the'], 'incorrect word count')
         self.assertEqual(3, word_count['brown'], 'incorrect word count')
@@ -34,7 +34,7 @@ class TestDocload(TestCase):
     def test_load3(self):
         from docload import load_books
         filenames = ['test2.txt', 'test2.txt']
-        word_count, word_list, (num_lines, num_words) = load_books(filenames, gutenberg=True)
+        word_count, word_list, num_lines, num_words = load_books(filenames, gutenberg=True)
         self.assertEqual(7, len(word_count), 'incorrect counter length')
         self.assertEqual(4, word_count['the'], 'incorrect word count')
         self.assertEqual(6, word_count['brown'], 'incorrect word count')
