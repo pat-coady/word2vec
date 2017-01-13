@@ -96,7 +96,7 @@ class WindowModel(object):
             g_ops_tensors['y_hat'] = tf.argmax(tf.matmul(hid_out,
                                                g_ops_tensors['nce_weights'],
                                                transpose_b=True) + nce_bias,
-                                               axis=0)
+                                               axis=1)
 
             # optimizer
             g_ops_tensors['optimizer'] = tf.train.RMSPropOptimizer(
@@ -181,7 +181,7 @@ class WindowModel(object):
                       .format(batch_count, avg_loss / avg_loss_count, val_loss))
                 g_ops_tensors['saver'].save(session,
                                             '../model-save/' + g_params['name'],
-                                            global_step=epoch)
+                                            global_step=epoch+1)
             self.results['embed_weights'] = g_ops_tensors['embed_weights'].eval()
             self.results['nce_weights'] = g_ops_tensors['nce_weights'].eval()
             self.results['e_train'] = e_train
@@ -203,7 +203,6 @@ class WindowModel(object):
                                 feed_dict=feed_dict)
 
         return y_hat
-
 
     @staticmethod
     def build_training_set(word_array):

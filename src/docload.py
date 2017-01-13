@@ -63,7 +63,7 @@ def load_books(filenames, gutenberg=False):
                 num_lines += 1
                 num_words += len(words)
 
-    return word_counter, word_list, (num_lines, num_words)
+    return word_counter, word_list, num_lines, num_words
 
 
 def build_dict(word_counter, vocab_size=50000):
@@ -127,11 +127,11 @@ def build_word_array(filenames, vocab_size, gutenberg=False):
         2) 2-tuple: (number of lines read, number of words read)
     Note: no integration coverage
     """
-    word_counter, word_list, (num_lines, num_words) = load_books(filenames, gutenberg)
+    word_counter, word_list, num_lines, num_words = load_books(filenames, gutenberg)
     dictionary = build_dict(word_counter, vocab_size)
     word_array = doc2num(word_list, dictionary)
 
-    return word_array, dictionary, (num_lines, num_words)
+    return word_array, dictionary, num_lines, num_words
 
 
 def save_word_array(filename, word_array, dictionary):
