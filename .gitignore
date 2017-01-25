@@ -1,0 +1,17 @@
+# no pycharm config files
+
+.idea
+
+# no jupyter notebook config/status files
+
+src/.ipynb_checkpoints/
+src/__pycache__/
+
+# no pickle files from data folder
+
+data/*.p
+
+# no model savepoints
+
+model-save/
+
