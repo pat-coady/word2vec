@@ -40,7 +40,17 @@ class WindowModel(object):
         self.g_params = graph_params.copy()
         self.g_ops_tensors = dict()
         self.results = dict()
+        self._set_defaults()
         self._build_tfgraph()
+
+    def _set_defaults(self):
+        self.g_params['neg_samples'] = self.g_params.get('neg_samples', 64)
+        self.g_params['embed_noise'] = self.g_params.get('embed_noise', 1)
+        self.g_params['hid_noise'] = self.g_params.get('hid_noise', 0.3)
+        self.g_params['name'] = self.g_params.get('name', 'model_save')
+        self.g_params['trunc_norm'] = self.g_params.get('trunc_norm', False)
+
+        return None
 
     def _build_tfgraph(self):
         """ Builds TensorFlow graph. Should only be called by __init__() """
@@ -59,7 +69,8 @@ class WindowModel(object):
             g_ops_tensors['embed_weights'] = tf.Variable(
                 tf.random_uniform([g_params['vocab_size'],
                                    g_params['embed_size']],
-                                  -1.0, 1.0))  # TODO: Is this reasonable initialization?
+                                  -g_params['embed_noise'],
+                                  g_params['embed_noise']))
 
             # embedding weights tied for all 4 input words
             embed_m2 = tf.nn.embedding_lookup(g_ops_tensors['embed_weights'], w_m2)
@@ -72,18 +83,25 @@ class WindowModel(object):
                                     values=[embed_m2, embed_m1, embed_p1, embed_p2])
 
             # hidden layer
-            hid_weights = tf.Variable(  # TODO: Is this reasonable random initialization?
+            hid_weights = tf.Variable(
                 tf.random_normal([g_params['embed_size'] * 4,
                                   g_params['hid_size']],
-                                 stddev=1.0/(g_params['embed_size'] * 4)**0.5))
+                                 stddev=g_params['hid_noise']/(g_params['embed_size'] * 4)**0.5))
             hid_bias = tf.Variable(tf.zeros([g_params['hid_size']]))
             hid_out = tf.nn.tanh(tf.matmul(embed_stack, hid_weights) + hid_bias)
 
             # output layer
-            g_ops_tensors['nce_weights'] = tf.Variable(  # TODO: Why truncated normal?
-                tf.truncated_normal([g_params['vocab_size'],
-                                     g_params['hid_size']],
-                                    stddev=1.0/g_params['hid_size']**0.5))
+            if g_params['trunc_norm']:
+                g_ops_tensors['nce_weights'] = tf.Variable(
+                    tf.truncated_normal([g_params['vocab_size'],
+                                         g_params['hid_size']],
+                                        stddev=1.0 / g_params['hid_size'] ** 0.5))
+            else:
+                g_ops_tensors['nce_weights'] = tf.Variable(
+                    tf.random_normal([g_params['vocab_size'],
+                                      g_params['hid_size']],
+                                     stddev=1.0 / g_params['hid_size'] ** 0.5))
+
             nce_bias = tf.Variable(tf.zeros([g_params['vocab_size']]))
 
             # loss function - noise contrastive estimation
@@ -101,8 +119,19 @@ class WindowModel(object):
                                                axis=1)
 
             # optimizer
-            g_ops_tensors['optimizer'] = tf.train.RMSPropOptimizer(
-                g_params['learn_rate']).minimize(g_ops_tensors['loss'])
+
+            if g_params['optimizer'] == 'RMSProp':
+                g_ops_tensors['optimizer'] = tf.train.RMSPropOptimizer(
+                    g_params['learn_rate']).minimize(g_ops_tensors['loss'])
+            elif g_params['optimizer'] == 'Momentum':
+                g_ops_tensors['optimizer'] = tf.train.MomentumOptimizer(
+                    g_params['learn_rate'],
+                    g_params['momentum']).minimize(g_ops_tensors['loss'])
+            elif g_params['optimizer'] == 'Adam':
+                g_ops_tensors['optimizer'] = tf.train.AdamOptimizer(
+                    g_params['learn_rate']).minimize(g_ops_tensors['loss'])
+            else:
+                print('*** Optimizer not specified.')
 
             # variable init
             self.g_ops_tensors['initializer'] = tf.global_variables_initializer()
@@ -137,7 +166,7 @@ class WindowModel(object):
 
     # TODO: over-training near end. implement drop-out.
     # TODO: tune hyper-parameters
-    def train(self, x, y, x_val=None, y_val=None, epochs=1):
+    def train(self, x, y, x_val=None, y_val=None, epochs=1, verbose=True):
         """
         Train TensorFlow graph. In-sample and validation error reported (stdout) after
         each training epoch. 2 word vectors returned:
@@ -148,6 +177,8 @@ class WindowModel(object):
         :param x_val: validation data set, features (same format as training data)
         :param y_val: validation data set, targets (same format as training data)
         :param epochs: (int) number of training epochs
+        :param verbose: (boolean) if True, print update on training and validation
+            error after every training epoch
         :return: dictionary of training results
             'embed_weights' : np.array of shape (vocab_size, embed_size): input embedding
             'nce_weights' : np.array of shape (vocab_size, hid_size): hid to output word vector
@@ -162,7 +193,8 @@ class WindowModel(object):
         with tf.Session(graph=self.graph) as session:
             session.run(g_ops_tensors['initializer'])   # initialize graph
             for epoch in range(1, epochs+1):
-                print('epoch {}: '.format(epoch), end='')
+                if verbose:
+                    print('epoch {}: '.format(epoch), end='')
                 avg_loss, avg_loss_count = (0, 0)
                 x, y = shuffle(x, y)                    # shuffle data prior to each epoch
                 for batch in range(num_batches):
@@ -179,8 +211,9 @@ class WindowModel(object):
                 val_loss = self.eval_loss(x_val, y_val, session)
                 e_val.append(val_loss)
                 e_train.append(avg_loss / avg_loss_count)
-                print('total batches = {}. train loss = {:.2f}, val loss = {:.2f}'
-                      .format(batch_count, avg_loss / avg_loss_count, val_loss))
+                if verbose:
+                    print('total batches = {}. train loss = {:.2f}, val loss = {:.2f}'
+                          .format(batch_count, avg_loss / avg_loss_count, val_loss))
                 g_ops_tensors['saver'].save(session,
                                             '../model-save/' + g_params['name'],
                                             global_step=epoch)
@@ -189,6 +222,9 @@ class WindowModel(object):
             self.results['e_train'] = e_train
             self.results['e_val'] = e_val
             self.results['epochs'] = epoch
+            val_loss = self.eval_loss(x_val, y_val, session)
+            print('End Training: total batches = {}. train loss = {:.2f}, val loss = {:.2f}'
+                  .format(batch_count, avg_loss / avg_loss_count, val_loss))
 
         return self.results.copy()
 
@@ -241,3 +277,7 @@ class WindowModel(object):
 
 # TODO: add cross-check graph calculation (numpy-based calculation)
 # TODO: experiment with swapping in predicted words on unseen document
+# TODO: add early stopping
+# TODO: Add random unknown words to training set
+
+
