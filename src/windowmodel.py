@@ -164,8 +164,7 @@ class WindowModel(object):
 
         return avg_loss/num_batches
 
-    # TODO: over-training near end. implement drop-out.
-    # TODO: tune hyper-parameters
+    # TODO: try dropout
     def train(self, x, y, x_val=None, y_val=None, epochs=1, verbose=True):
         """
         Train TensorFlow graph. In-sample and validation error reported (stdout) after
@@ -221,7 +220,7 @@ class WindowModel(object):
             self.results['nce_weights'] = g_ops_tensors['nce_weights'].eval()
             self.results['e_train'] = e_train
             self.results['e_val'] = e_val
-            self.results['epochs'] = epoch
+            self.results['epochs'] = epochs+1
             val_loss = self.eval_loss(x_val, y_val, session)
             print('End Training: total batches = {}. train loss = {:.2f}, val loss = {:.2f}'
                   .format(batch_count, avg_loss / avg_loss_count, val_loss))
@@ -275,7 +274,6 @@ class WindowModel(object):
 
         return x, y
 
-# TODO: add cross-check graph calculation (numpy-based calculation)
 # TODO: experiment with swapping in predicted words on unseen document
 # TODO: add early stopping
 # TODO: Add random unknown words to training set
