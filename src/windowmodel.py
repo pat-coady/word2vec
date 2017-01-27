@@ -220,7 +220,7 @@ class WindowModel(object):
             self.results['nce_weights'] = g_ops_tensors['nce_weights'].eval()
             self.results['e_train'] = e_train
             self.results['e_val'] = e_val
-            self.results['epochs'] = epochs+1
+            self.results['epochs'] = epochs
             val_loss = self.eval_loss(x_val, y_val, session)
             print('End Training: total batches = {}. train loss = {:.2f}, val loss = {:.2f}'
                   .format(batch_count, avg_loss / avg_loss_count, val_loss))
