@@ -45,8 +45,8 @@ class WindowModel(object):
 
     def _set_defaults(self):
         self.g_params['neg_samples'] = self.g_params.get('neg_samples', 64)
-        self.g_params['embed_noise'] = self.g_params.get('embed_noise', 1)
-        self.g_params['hid_noise'] = self.g_params.get('hid_noise', 0.3)
+        self.g_params['embed_noise'] = self.g_params.get('embed_noise', 0.1)
+        self.g_params['hid_noise'] = self.g_params.get('hid_noise', 0.1)
         self.g_params['name'] = self.g_params.get('name', 'model_save')
         self.g_params['trunc_norm'] = self.g_params.get('trunc_norm', False)
 
@@ -277,5 +277,3 @@ class WindowModel(object):
 # TODO: experiment with swapping in predicted words on unseen document
 # TODO: add early stopping
 # TODO: Add random unknown words to training set
-
-
