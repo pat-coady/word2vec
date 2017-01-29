@@ -1,5 +1,0 @@
-theme: jekyll-theme-cayman
-gem "github-pages", group: :jekyll_plugins
-title: TensorFlow Word2Vec
-description: Word Vectors from Works of Sir Aurthur Conan Doyle (Sherlock Holmes)
-show_downloads: "true"
