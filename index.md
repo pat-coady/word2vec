@@ -4,11 +4,30 @@ I've wanted to learn Google's TensorFlow for some time now. I've used Keras with
 
 I chose to build a simple word-embedding neural net. This seemed a good compromise that was interesting, but not so complex that I would be debugging my neural net and TensorFlow simultaneously.
 
-## Word Embedding
+## Word Vectors
 
-Learning word vectors from documents is a nice way to see the power of unsupervised learning. At first I first found it counter-intuitive that a machine could learn anything useful without human-labeled data. I associated unsupervised learning with k-means clustering, and not much else. While clustering is useful, it hardly seemed exciting.
+A word vector is just a n-dimensional real-valued vector for each word in some dictionary (e.g. English). Word vectors for 2 similar words should be close to each other using some distance metric. For instance, you would expect "jacket" and "coat" to be close to each other. Similarly, you would expect "jacket" and "jackets" to be close.
 
-The idea of word-embedding to learn a vector representation for each word. 
+But "jacket" is singular and "jackets" is plural, so there should be some difference in the vectors. Fine, the word with an "s" at the end is plural. But, what about "mouse" and "mice" or "goose" and "geese"? Who wants to teach a computer all of the obscure rules of English. And then repeat the task for Spanish, German, French and on. Can we learn word vectors without human-labeled data (i.e. unsupervised learning)?
+
+## Unsupervised Learning
+
+Learning word vectors from documents is a nice way to see the power of unsupervised learning. It can be counter-intuitive that a machine can learn anything useful without human-labeled data. I personally associated unsupervised learning with k-means clustering, and not much else. While clustering is useful, it hardly seems exciting. But unsupervised learning is exciting.
+
+The Big Idea is to learn the structure in your data before using your precious hand-labeled examples. Here are 2 approaches:
+
+1. Hire a bunch of people to label thousands of words in dozens of documents (e.g. plural, singular, verb, common noun, proper noun). Then set your learning algorithm loose and hope it will learn features that generalize. But, because of time contraints, your training set never encountered "Angela Merkel". Maybe the algorithm sees capital letters and figures out she is a person. But, probably not much else.
+2. Train a model on **thousands** of documents and a million words. Learn patterns of words that seem interchangeable. Patterns of words that occur together. And so on. After this training, introduce a much smaller set of labeled data. When you label one word, the model will already know the similarity and relationship to dozens of other words. Now if you label "Angela Merkel" as "head of state", the model will figure out that Francois Hollande is also a head of state (having never been explicity told). And, furthermore, it will have already learned that Francois is a man's name and Angela is a woman's name. And Merkel is German and Hollande French.
+
+## Learning Word Vectors
+
+
+
+
+
+
+
+
 
 
 
