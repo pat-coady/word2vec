@@ -12,16 +12,20 @@ But "jacket" is singular and "jackets" is plural, so there should be some differ
 
 ## Unsupervised Learning
 
-Learning word vectors from documents is a nice way to see the power of unsupervised learning. It can be counter-intuitive that a machine can learn anything useful without human-labeled data. I personally associated unsupervised learning with k-means clustering, and not much else. While clustering is useful, it hardly seems exciting. But unsupervised learning is exciting.
+Learning word vectors from documents is a nice way to see the power of unsupervised learning. It can be counter-intuitive that a machine can learn anything useful without human-labeled data. Personally, I associated unsupervised learning with k-means clustering, and not much else. While clustering is useful, it hardly seems exciting. But unsupervised learning is exciting.
 
-The Big Idea is to learn the structure in your data before using your precious hand-labeled examples. Here are 2 approaches:
+The Big Idea is to learn the structure in your data before using your precious hand-labeled examples. Consider these two approaches:
 
-1. Hire a bunch of people to label thousands of words in dozens of documents (e.g. plural, singular, verb, common noun, proper noun). Then set your learning algorithm loose and hope it will learn features that generalize. But, because of time contraints, your training set never encountered "Angela Merkel". Maybe the algorithm sees capital letters and figures out she is a person. But, probably not much else.
-2. Train a model on **thousands** of documents and a million words. Learn patterns of words that seem interchangeable. Patterns of words that occur together. And so on. After this training, introduce a much smaller set of labeled data. When you label one word, the model will already know the similarity and relationship to dozens of other words. Now if you label "Angela Merkel" as "head of state", the model will figure out that Francois Hollande is also a head of state (having never been explicity told). And, furthermore, it will have already learned that Francois is a man's name and Angela is a woman's name. And Merkel is German and Hollande French.
+1. Hire a bunch of people to label thousands of words in dozens of documents. Then set your learning algorithm loose and hope it will learn features that generalize. But, because of time contraints, your training set never encountered "Angela Merkel". Maybe the algorithm sees capital letters and figures out she is a person. But, probably not much else.
+2. Train a model on **hundreds** of documents and **millions** words. Learn patterns of words that seem interchangeable. Patterns of words that occur together. And so on. After this training, introduce a much smaller set of labeled data. When you label one word, the model will already know its similarity and relationship to dozens of other words. For example, if you label "Angela Merkel" as "head of state" and "German", the model will figure out that Francois Hollande is also a head of state, and of France (having never been explicity told).
+
+This is powerful stuff. The same approach applies to many domains, including speech and image recognition.
 
 ## Learning Word Vectors
 
+There are many approaches to learning real-valued vector representations of words. The approach is to train a model predict the "middle" word given the N preceding and N following words. Here is a diagram of the model:
 
+![](images/NN_diagram.png)
 
 
 
