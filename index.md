@@ -1,6 +1,6 @@
 # Overview
 
-My primary objective with this project was to learn [TensorFlow](https://www.tensorflow.org/). I've used [Keras](https://keras.io/) with TensorFlow as the back-end. Recently, I bumped into a situation where I struggled to make Keras build the neural net I wanted. So it was time to learn TensorFlow. Like most things, you learn by doing.
+My primary objective with this project was to learn [TensorFlow](https://www.tensorflow.org/). I've used [Keras](https://keras.io/) with TensorFlow as the back-end. Recently, I bumped into a situation where I struggled to make Keras build the neural net I wanted. Like most things, you learn by doing.
 
 I chose to build a simple word-embedding neural net. This seemed a good compromise that was both interesting, but not so complex that I would be simulataneously debugging my neural net and TensorFlow.
 
@@ -53,11 +53,11 @@ I constrained the word vectors to a dimension of 64. Word vectors with a dimensi
 
 Here I plug in a word and find the 8 closest words based on cosine similarity to the learned word vectors.
 
-**"seven" : ['eight', 'five', 'ten', 'eleven', 'twelve', 'six', 'four', 'nine']**
-**"laughing" : ['smiling', 'rising', 'chuckling', "'and", 'wild', 'pensively', "'well", 'yawning']**
-**"mr" : ['mrs', 'dr', "'mr", 'blind', 'earnestly', 'l', 'servant', 'st']**
+**"seven" : ['eight', 'five', 'ten', 'eleven', 'twelve', 'six', 'four', 'nine']**  
+**"laughing" : ['smiling', 'rising', 'chuckling', "'and", 'wild', 'pensively', "'well", 'yawning']**  
+**"mr" : ['mrs', 'dr', "'mr", 'blind', 'earnestly', 'l', 'servant', 'st']**  
 
-I think the above results to be amazing. At the beginning of training, this model had no idea seven, five or ten were all numbers - they were just a random jumble of letter. The computer had never "read a book" in its life. And, now it has read only 3 Sherlock Holmes books and figured out these relationships.
+This is kind of amazing. At the beginning of training, this model had no idea seven, five or ten were all numbers - they were just a random jumble of letter. The computer had never "read a book" in its life. And, now it has read only 3 Sherlock Holmes books and figured out these relationships.
 
 #### Analogies
 
@@ -69,8 +69,8 @@ The possibilities here are exciting. Again, we are using a model trained with no
 
 Here are some actual results from the *Sherlock Holmes* training.
 
-**had to has : was to** ['was', **'is'**, 'has', **'lives'**, 'makes']
-**boot to boots : arm to** ['boots', **'arms'**, 'weeks', **'limbs'**, 'heart']
+**had to has : was to** ['was', **'is'**, 'has', **'lives'**, 'makes']  
+**boot to boots : arm to** ['boots', **'arms'**, 'weeks', **'limbs'**, 'heart']  
 
 Not perfect, but the answers in the top-5 are certainly encouraging.
 
