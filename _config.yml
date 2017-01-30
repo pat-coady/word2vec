@@ -1,5 +1,5 @@
 theme: jekyll-theme-cayman
 gem "github-pages", group: :jekyll_plugins
-title: Word Vectors from Sherlock Holmes Books
-description: Word2Vec with TensorFlow
+title: Word2Vec with TensorFlow
+description: Word Vectors from Sherlock Holmes Books
 show_downloads: "true"
