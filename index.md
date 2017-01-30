@@ -8,7 +8,7 @@ I chose to build a simple word-embedding neural net. This seemed a good compromi
 
 A word vector is just a n-dimensional real-valued vector for each word in some dictionary (e.g. English). Word vectors for 2 similar words should be close to each other using some distance metric. For instance, you would expect "jacket" and "coat" to be close to each other. Similarly, you would expect "jacket" and "jackets" to be close.
 
-But "jacket" is singular and "jackets" is plural, so there should be some difference in the vectors. Fine, the word with an "s" at the end is plural. But, what about "mouse" and "mice" or "goose" and "geese"? Who wants to teach a computer all of the bizarre rules of English. And then repeat the task for Spanish, German, French and on. Can we learn word vectors without human-labeled data?
+But "jacket" is singular and "jackets" is plural, so there should be some difference in the vectors. Fine, the word with an "s" at the end is plural. But, what about "mouse" and "mice" or "goose" and "geese"? Who wants to teach a computer all of the bizarre rules of English? And then repeat the task for Spanish, German, French and on. Can we learn word vectors without human-labeled data?
 
 # Unsupervised Learning
 
