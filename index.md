@@ -7,7 +7,7 @@ comments: true
 
 My primary objective with this project was to learn [TensorFlow](https://www.tensorflow.org/). I've previously used [Keras](https://keras.io/) with TensorFlow as its back-end. Recently, Keras couldn't easily build a neural net architecture I wanted to try. So it was time to learn the TensorFlow API.
 
-I chose to build a simple word-embedding neural net. This seemed a good compromise that was interesting, but not too complex. I didn't want to simulataneously debug my neural net and my TensorFlow code.
+I chose to build a simple word-embedding neural net. This seemed a good compromise that was interesting, but not too complex. I didn't want to simultaneously debug my neural net and my TensorFlow code.
 
 # Word Vectors
 
@@ -23,7 +23,7 @@ The *Big Idea* is to learn the structure in your data *before* using your precio
 
 1. Hire experts to label thousands of words in dozens of documents. Then set your learning algorithm loose and hope it will learn features that generalize. But, suppose your training didn't include "Angela Merkel". Perhaps the algorithm sees capital letters and figures out she is a person. But, probably not much beyond that.
 2. Instead, let's train a model on **hundreds** of documents and **millions** words. And bypass hiring human experts. Learn words that seem interchangeable. Patterns of words that occur together. And so forth. After this initial training, introduce a much smaller set of human-labeled data. When you label one word, the model already knows its similarity and relationship to dozens of other words.
-	* Example: Label "Angela Merkel" as "head of state" of "Germany". The model has seen Francois Hollande's name used similarly with repsect to France. And Barack Obama with respect to the United States. So, we taught it 1 fact and it has learned a dozen additional facts.
+	* Example: Label "Angela Merkel" as "head of state" of "Germany". The model has seen Francois Hollande's name used similarly with respect to France. And Barack Obama with respect to the United States. So, we taught it 1 fact and it has learned a dozen additional facts.
 
 I hope this gives you some appreciation for the power unsupervised learning. First learn the structure and patterns ("regularities" in machine learning speak) from a large set set of data. Then label a much smaller set of examples. Don't waste your valuable hand-labeled data learning the basic structure of your data. This same approach applies to many domains, including speech and image recognition.
 
