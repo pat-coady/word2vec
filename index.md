@@ -37,7 +37,7 @@ Here are a some key points:
 
 # Results
 
-I training the model on 3 Sherlock Holmes books (written by Sir Arthur Conan Doyle):
+I training the model using 3 Sherlock Holmes books (written by Sir Arthur Conan Doyle):
 
 * The Hound of the Baskervilles
 * The Sign of the Four
@@ -72,12 +72,23 @@ Here are some actual results from the *Sherlock Holmes* training.
 **had to has : was to** ['was', **'is'**, 'has', **'lives'**, 'makes']
 **boot to boots : arm to** ['boots', **'arms'**, 'weeks', **'limbs'**, 'heart']
 
-Not perfect, but the answers in the top-5 are certainly encouraging. The answer "lives" in the first query almost seems philosophical.
+Not perfect, but the answers in the top-5 are certainly encouraging.
 
 # The Code
 
-See the README.md file on the github page for a description of the code. I spent some time making the code readable and, hopefully, reusable. There are even some unit tests for many of the methods.
+The project has 2 major components:
 
-* Add t-SNE plot
-* Add link to key papers
-* Embed links in documents to a few key items: TensorFlow, Keras, ...
+* 3 Python modules to:
+	1. Load and process text documents (docload.py)
+	2. Build and train TensorFlow model (windomodel.py)
+	3. Explore the learned word vectors (wordvector.py)
+* iPython Notebooks
+	* Load text documents, train models and explore the results (sherlock.ipynb)
+	* Hyper-parameter tuning and viewing learning curves (tune\_\*.ipynb)
+	* Plot word frequencies (word\_frequency.ipynb)
+
+I did my best to write clear code for the 3 Python modules. I hope others find them useful for their project, or for just better understanding how to use TensorFlow.
+
+For additional details on the code please see [README.md](https://github.com/pat-coady/word2vec/blob/master/README.md) on the GitHub page.
+
+
