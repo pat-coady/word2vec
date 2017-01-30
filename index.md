@@ -1,6 +1,6 @@
 # Overview
 
-My primary objective with this project was to [TensorFlow](https://www.tensorflow.org/) for some time now. I've used [Keras](https://keras.io/) with TensorFlow as the back-end. Recently, I bumped into a situation where I struggled to make Keras build the neural net I wanted. So it was time to learn TensorFlow. Like most things, you learn by doing.
+My primary objective with this project was to learn [TensorFlow](https://www.tensorflow.org/). I've used [Keras](https://keras.io/) with TensorFlow as the back-end. Recently, I bumped into a situation where I struggled to make Keras build the neural net I wanted. So it was time to learn TensorFlow. Like most things, you learn by doing.
 
 I chose to build a simple word-embedding neural net. This seemed a good compromise that was both interesting, but not so complex that I would be simulataneously debugging my neural net and TensorFlow.
 
