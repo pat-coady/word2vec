@@ -23,7 +23,7 @@ The *Big Idea* is to learn the structure in your data *before* using your precio
 
 1. Hire experts to label thousands of words in dozens of documents. Then set your learning algorithm loose and hope it will learn features that generalize. But, suppose your training didn't include "Angela Merkel". Perhaps the algorithm sees capital letters and figures out she is a person. But, probably not much beyond that.
 2. Instead, let's train a model on **hundreds** of documents and **millions** words. And bypass hiring human experts. Learn words that seem interchangeable. Patterns of words that occur together. And so forth. After this initial training, introduce a much smaller set of human-labeled data. When you label one word, the model already knows its similarity and relationship to dozens of other words.
-	* Example: Label "Angela Merkel" as "head of state" of "Germany". The model has seen Francois Hollande's name used similarly with respect to France. And Barack Obama with respect to the United States. So, we taught it 1 fact and it has learned a dozen additional facts.
+	* Example: We label "Angela Merkel" as "head of state" of "Germany". The model has seen Francois Hollande's name used similarly with respect to France. And Barack Obama with respect to the United States. So, we gave it one example the model is able to deduce much more.
 
 I hope this gives you some appreciation for the power unsupervised learning. First learn the structure and patterns ("regularities" in machine learning speak) from a large set set of data. Then label a much smaller set of examples. Don't waste your valuable hand-labeled data learning the basic structure of your data. This same approach applies to many domains, including speech and image recognition.
 
