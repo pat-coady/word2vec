@@ -1,2 +1,5 @@
-# word2vec
-Learning Word Vectors from Project Gutenberg Texts
+# GitHub Pages - Project Web Site
+
+See:
+
+https://pat-coady.github.io/word2vec/
