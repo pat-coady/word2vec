@@ -79,7 +79,7 @@ class WindowModel(object):
             embed_p2 = tf.nn.embedding_lookup(g_ops_tensors['embed_weights'], w_p2)
 
             # concatenate word vectors for all 4 input words
-            embed_stack = tf.concat(concat_dim=1,
+            embed_stack = tf.concat(axis=1,
                                     values=[embed_m2, embed_m1, embed_p1, embed_p2])
 
             # hidden layer

@@ -57,8 +57,8 @@ def load_books(filenames, gutenberg=False):
                     continue
                 if not in_book:
                     continue
-                # TODO: check reg-exp below, what is ' for?
-                words = re.findall("[\\w']+|[.,!?'\"]", line.lower().strip('\n'))
+                # TODO: check reg-exp below
+                words = re.findall("[\\w']+|[;:-()&.,!?'\"]", line.lower().strip('\n'))
                 word_counter.update(words)
                 word_list.extend(words)
                 num_lines += 1
