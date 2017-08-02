@@ -104,7 +104,7 @@ For additional details on the code please see [README.md](https://github.com/pat
 <div id="disqus_thread"></div>
 <script>
 var disqus_config = function () {
-this.page.url = 'https://pat-coady.github.io/word2vec/';
+this.page.url = 'http://learningai.io/word2vec/';
 };
 (function() { // DON'T EDIT BELOW THIS LINE
 var d = document, s = d.createElement('script');

@@ -2,4 +2,4 @@
 
 See:
 
-https://pat-coady.github.io/word2vec/
+http://learningai.io/word2vec/
