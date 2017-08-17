@@ -2,4 +2,4 @@
 
 See:
 
-http://learningai.io/word2vec/
+https://learningai.io/word2vec/
